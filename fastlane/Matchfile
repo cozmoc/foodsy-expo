@@ -1,0 +1,11 @@
+git_url("git@github.com:telehack/act-today-certificates.git")
+git_branch("tobiko")
+
+type("development") # The default type, can be: appstore, adhoc, enterprise or development
+
+app_identifier("com.acttoday.food")
+username("ios@act.today") # Your Apple Developer Portal username
+team_id "C5F6KWYXS6"
+
+# For all available options run `fastlane match --help`
+# Remove the # in the beginning of the line to enable the other options

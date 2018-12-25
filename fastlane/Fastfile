@@ -1,0 +1,115 @@
+fastlane_version '2.53.1'
+
+# match(type: "appstore")
+
+# match(git_url: "git@github.com:telehack/act-today-certificates.git",
+#       type: "development")
+
+
+default_platform :ios
+
+before_all do
+  ENV["SLACK_URL"] = "https://hooks.slack.com/services/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"
+  # ensure_git_branch
+  # ensure_git_status_clean
+  # git_pull
+end
+
+def bump_build_version
+  build_number = number_of_commits
+  increment_build_number(
+    xcodeproj: "./ios/Food.xcodeproj",
+    build_number: build_number
+  )
+end
+
+def remove_build_folders
+  sh "cd .. && rm -rf android/build &&  rm -rf android/app/build"
+end
+
+platform :ios do
+  lane :beta do
+    slack(
+      message: "Starting...",
+      use_webhook_configured_username_and_icon: true,
+      default_payloads: [
+        :lane,
+        :git_branch,
+        :git_author,
+        :last_git_commit_message,
+        :last_git_commit_hash
+      ]
+    )
+    bump_build_version
+    get_certificates(
+      username: "ios@act.today",
+      team_id: "C5F6KWYXS6"
+    )
+    get_provisioning_profile(
+      app_identifier: "com.acttoday.food",
+      username: "ios@act.today",
+      team_id: "C5F6KWYXS6"
+    )
+    # increment_build_number(xcodeproj: "./ios/Food.xcodeproj") # Increment build No.
+    # # build_app
+    # gym(clean: true, workspace: "./ios/Food.xcworkspace", scheme: "Food")
+
+
+    # match(
+    #   type: "appstore",
+    #   git_url: "git@gitlab.com:applification/AwesomeProjectMatch.git"
+    # ) # more information: https://codesigning.guide   
+
+    gym(
+      # clean: true,
+      workspace: "./ios/Food.xcworkspace",
+      scheme: "Food",
+      # export_options: {
+      #   provisioningProfiles: {
+      #     "com.acttoday.food" => "match Distribution com.acttoday.food"
+      #   }
+      # }
+    ) # Build your app - more options available
+    pilot(
+      username: "ios@act.today"
+    )
+    slack(
+      message: "Build Complete!",
+      use_webhook_configured_username_and_icon: true,
+    )
+  end
+end
+
+platform :android do
+  lane :playstore do
+    remove_build_folders
+    gradle(
+      project_dir:"android",
+      task: 'assemble',
+      build_type: 'Release',
+    )
+    upload_to_play_store(
+      track: 'beta'
+    )
+  end
+  lane :beta do
+    remove_build_folders
+    gradle(
+      project_dir:"android",
+      task: 'assemble',
+      build_type: 'Release',
+    )
+    upload_to_play_store(
+      track: 'beta'
+    )
+  end
+  lane :debug do
+    remove_build_folders
+    gradle(
+      project_dir:"android",
+      task: 'assemble',
+      # build_type: 'Release',
+      build_type: 'Debug',
+    )
+  end
+end

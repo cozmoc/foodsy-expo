@@ -1,0 +1,39 @@
+{
+  "main": "node_modules/expo/AppEntry.js",
+  "scripts": {
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "eject": "expo eject"
+  },
+  "dependencies": {
+    "expo": "^31.0.2",
+    "react": "16.5.0",
+    "react-native": "https://github.com/expo/react-native/archive/sdk-31.0.0.tar.gz",
+    "apollo-cache-inmemory": "^1.2.5",
+    "apollo-client": "^2.3.5",
+    "apollo-link": "^1.2.2",
+    "apollo-link-error": "^1.1.0",
+    "apollo-link-http": "^1.5.4",
+    "fbjs": "^0.8.16",
+    "graphql": "^0.13.2",
+    "graphql-tag": "^2.9.2",
+    "react-apollo": "^2.1.6",
+    "react-native-calendars": "^1.20.0",
+    "react-native-carousel-pager": "^1.5.0",
+    "react-native-device-info": "^0.22.2",
+    "react-native-elements": "^0.19.1",
+    "react-native-firebase": "^4.1.0",
+    "react-native-image-fallback": "0.0.4",
+    "react-native-modal-date-picker": "^1.0.3",
+    "react-native-modal-datetime-picker": "^6.0.0",
+    "react-native-simple-time-picker": "^0.2.0",
+    "react-native-snap-carousel": "^3.7.5",
+    "react-native-vector-icons": "^4.6.0",
+    "react-navigation": "^2.8.0"
+  },
+  "devDependencies": {
+    "babel-preset-expo": "^5.0.0"
+  },
+  "private": true
+}
